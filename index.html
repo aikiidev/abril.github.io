@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Navidad ❤️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <style>
+        /* ========== VARIABLES CSS ========== */
+        :root {
+            --color-primary: #c41e3a;
+            --color-primary-light: #e74c3c;
+            --color-secondary: #d4af37;
+            --color-bg: #ffe4ec;
+            --color-text: #2c3e50;
+            --color-text-light: #7f8c8d;
+            --color-card-bg: #fff0f5;
+            --color-overlay: rgba(0, 0, 0, 0.8);
+            --font-main: 'Playfair Display', serif;
+            --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body.dark-mode {
+            --color-bg: #4a2a3a;
+            --color-text: #ecf0f1;
+            --color-text-light: #bdc3c7;
+            --color-card-bg: #5a3a4a;
+        }
+
+        /* ========== RESET & BASE ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #snow-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.7;
+        }
+
+        /* ========== HEADER & CONTROLS ========== */
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            background: var(--color-card-bg);
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
+            padding: 8px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .control-btn:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(196, 30, 58, 0.3);
+        }
+
+        /* ========== CONTAINER ========== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ========== SECTIONS ========== */
+        section {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        section:nth-child(1) { animation-delay: 0.1s; }
+        section:nth-child(2) { animation-delay: 0.2s; }
+        section:nth-child(3) { animation-delay: 0.3s; }
+        section:nth-child(4) { animation-delay: 0.4s; }
+        section:nth-child(5) { animation-delay: 0.5s; }
+        section:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            text-align: center;
+            padding: 100px 20px 60px;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-family: var(--font-main);
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            color: var(--color-primary);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: var(--color-text-light);
+            max-width: 600px;
+            font-style: italic;
+        }
+
+        .hero .ornament {
+            font-size: 3rem;
+            margin: 20px 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* ========== SECTION TITLES ========== */
+        .section-title {
+            font-family: var(--font-main);
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--color-secondary), transparent);
+        }
+
+        /* ========== LETTER SECTION ========== */
+        .letter-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .letter-content {
+            background: var(--color-card-bg);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid var(--color-secondary);
+            position: relative;
+        }
+
+        .letter-content.wrapped {
+            filter: blur(3px);
+            pointer-events: none;
+        }
+
+        .letter-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        /* Ribbon styles */
+        .gift-ribbon {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .ribbon-vertical {
+            position: absolute;
+            left: 50%;
+            top: -30px;
+            transform: translateX(-50%);
+            width: 80px;
+            height: calc(100% + 60px);
+            background: linear-gradient(90deg, #c41e3a 0%, #e74c3c 50%, #c41e3a 100%);
+            box-shadow: 0 0 20px rgba(196, 30, 58, 0.5),    
+                        inset 0 0 20px rgba(255, 255, 255, 0.3);
+            pointer-events: auto;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .ribbon-vertical:hover {
+            box-shadow: 0 0 30px rgba(196, 30, 58, 0.8),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            transform: translateX(-50%) scale(1.02);
+        }
+
+        .ribbon-vertical::before,
+        .ribbon-vertical::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+        }
+
+        .ribbon-vertical::before {
+            top: -30px;
+            border-bottom: 30px solid #c41e3a;
+        }
+
+        .ribbon-vertical::after {
+            bottom: -30px;
+            border-top: 30px solid #c41e3a;
+        }
+
+        .ribbon-horizontal {
+            position: absolute;
+            top: 50%;
+            left: -30px;
+            transform: translateY(-50%);
+            width: calc(100% + 60px);
+            height: 80px;
+            background: linear-gradient(180deg, #c41e3a 0%, #e74c3c 50%, #c41e3a 100%);
+            box-shadow: 0 0 20px rgba(196, 30, 58, 0.5),
+                        inset 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .ribbon-bow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            pointer-events: auto;
+            cursor: pointer;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .bow-left,
+        .bow-right {
+            position: absolute;
+            top: 50%;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle at center, #e74c3c, #c41e3a);
+            border-radius: 50% 50% 0 50%;
+            box-shadow: 0 5px 15px rgba(196, 30, 58, 0.6),
+                        inset 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .bow-left {
+            left: 0;
+            transform: translateY(-50%) rotate(-45deg);
+        }
+
+        .bow-right {
+            right: 0;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .bow-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #e74c3c, #c41e3a);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(196, 30, 58, 0.8),
+                        inset 0 0 10px rgba(255, 255, 255, 0.4);
+        }
+
+        .bow-knot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        .gift-ribbon.opening .ribbon-vertical {
+            animation: slideUp 0.8s ease-out forwards;
+        }
+
+        .gift-ribbon.opening .ribbon-horizontal {
+            animation: slideOut 0.8s ease-out forwards;
+        }
+
+        .gift-ribbon.opening .ribbon-bow {
+            animation: flyAway 1s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateX(-50%) translateY(-150%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes slideOut {
+            to {
+                transform: translateY(-50%) translateX(-150%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes flyAway {
+            to {
+                transform: translate(-50%, -300%) rotate(720deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* ========== REASONS GRID ========== */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .reason-card {
+            background: var(--color-card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reason-card::before {
+            content: '❤️';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            opacity: 0.2;
+        }
+
+        .reason-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(196, 30, 58, 0.2);
+            border-color: var(--color-primary-light);
+        }
+
+        .reason-card h3 {
+            color: var(--color-primary);
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-family: var(--font-main);
+        }
+
+        .reason-card .short-text {
+            color: var(--color-text-light);
+            font-size: 0.95rem;
+        }
+
+        .reason-card .full-text {
+            display: none;
+            color: var(--color-text);
+            font-size: 1rem;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--color-secondary);
+        }
+
+        .reason-card.expanded .short-text {
+            display: none;
+        }
+
+        .reason-card.expanded .full-text {
+            display: block;
+        }
+
+        /* ========== PROMISES LIST ========== */
+        .promises-list {
+            max-width: 700px;
+            margin: 40px auto;
+            background: var(--color-card-bg);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .promise-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding-left: 15px;
+        }
+
+        .promise-item::before {
+            content: '✨';
+            font-size: 1.5rem;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .promise-item p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* ========== GALLERY ========== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-item .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px 15px 10px;
+            font-size: 0.9rem;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover .caption {
+            transform: translateY(0);
+        }
+
+        /* ========== FINAL CTA ========== */
+        .final-cta {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+            color: white;
+            padding: 20px 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(196, 30, 58, 0.4);
+            transition: all 0.3s;
+            text-decoration: none;
+            font-family: var(--font-main);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(196, 30, 58, 0.5);
+        }
+
+        /* ========== MODAL ========== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-overlay);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--color-card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: modalSlideIn 0.4s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: scale(0.9) translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 1;
+        }
+
+        .modal-close:hover {
+            background: var(--color-primary-light);
+            transform: rotate(90deg);
+        }
+
+        .modal video {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 10px;
+            display: block;
+        }
+
+        /* ========== LIGHTBOX ========== */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .lightbox-close:hover {
+            transform: scale(1.2);
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--color-text-light);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--color-secondary);
+            opacity: 0.8;
+        }
+
+        footer span {
+            color: var(--color-primary);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .controls {
+                top: 10px;
+                right: 10px;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .control-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .hero {
+                padding: 80px 20px 40px;
+            }
+
+            .letter-content {
+                padding: 25px;
+            }
+
+            .reasons-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 10px;
+            }
+
+            .cta-button {
+                padding: 15px 35px;
+                font-size: 1.1rem;
+            }
+
+            .modal-content {
+                padding: 20px;
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body class="dark-mode">
+    <!-- Canvas para efecto de nieve -->
+    <canvas id="snow-canvas"></canvas>
+
+    <!-- Controles -->
+    <div class="controls">
+        <button class="control-btn" id="toggle-snow" aria-label="Activar o desactivar efecto de flores y corazones">🌸 Flores</button>
+        <button class="control-btn" id="toggle-dark" aria-label="Cambiar modo oscuro">🌙 Modo</button>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="ornament">🎄</div>
+            <h1 id="hero-title">Feliz Navidad</h1>
+            <p class="subtitle" id="hero-subtitle">Cargando...</p>
+        </section>
+
+        <!-- Carta Section -->
+        <section>
+            <h2 class="section-title">Una Carta Para Ti</h2>
+            <div class="letter-wrapper">
+                <div class="letter-content wrapped" id="letter-content">
+                    <!-- Generado dinámicamente -->
+                </div>
+                <div class="gift-ribbon" id="gift-ribbon">
+                    <div class="ribbon-vertical"></div>
+                    <div class="ribbon-horizontal"></div>
+                    <div class="ribbon-bow" id="ribbon-bow">
+                        <div class="bow-left"></div>
+                        <div class="bow-right"></div>
+                        <div class="bow-center">
+                            <div class="bow-knot"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reasons Section -->
+        <section>
+            <h2 class="section-title">Cosas Que Me Encantan De Ti</h2>
+            <div class="reasons-grid" id="reasons-grid">
+                <!-- Generado dinámicamente -->
+            </div>
+        </section>
+
+        <!-- Promises Section -->
+        <section>
+            <h2 class="section-title">Pequeñas Promesas Para El 2026</h2>
+            <div class="promises-list" id="promises-list">
+                <!-- Generado dinámicamente -->
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="final-cta">
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" class="cta-button" id="youtube-link" aria-label="Ver video especial en YouTube">
+                ✨ Tengo Algo Más Para Ti ✨
+            </a>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Hecho con <span>❤️</span> por Jason</p>
+    </footer>
+
+    <!-- Modal de Video -->
+    <div class="modal" id="video-modal" role="dialog" aria-modal="true" aria-labelledby="video-modal-title">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal-btn" aria-label="Cerrar modal">×</button>
+            <h2 id="video-modal-title" style="display: none;">Video especial</h2>
+            <video id="video-player" controls>
+                <source src="video.mp4" type="video/mp4">
+                Tu navegador no soporta el elemento de video.
+            </video>
+        </div>
+    </div>
+
+    <!-- Lightbox para Galería -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+        <span class="lightbox-close" id="lightbox-close" aria-label="Cerrar imagen">&times;</span>
+        <img id="lightbox-img" src="" alt="Imagen ampliada">
+    </div>
+
+    <script>
+        // ========================================
+        // CONFIGURACIÓN - CAMBIAR AQUÍ
+        // ========================================
+        
+        const youtubeVideoUrl = "https://youtube.com/shorts/F9Vo0VWWSFI"; // CAMBIAR AQUÍ: URL de tu video de YouTube
+        
+        const partnerName = "Mi Amor"; // CAMBIAR AQUÍ: Nombre de tu pareja
+        
+        const heroSubtitle = "Gracias por llegar a mi vida y llenarla de luz y amor cada día..."; // CAMBIAR AQUÍ
+        
+        const letterParagraphs = [ // CAMBIAR AQUÍ: Párrafos de tu carta
+            "Feliz navidad mi Abril hermosa, la niña de mis ojitos, la princesa mas bella de todo el mundo, la que se merece todo en un mundo donde a veces no todo es justo. pero hoy dire todo en esta linda carta que escribi para ti",
+            "Un 8 de noviembre del 2025, llegaste a mi vida, donde el destino nos unió y desde ese momento supe que eras la persona con la que quería compartir mis días, mis sueños y mi amor. Cada instante a tu lado ha sido un regalo que no tiene precio, y no puedo evitar sentirme afortunado de tenerte en mi vida.",
+            "Desde esa videollamada que me pediste donde cambió todo, hasta cada risa compartida y cada mirada cómplice, has llenado mi vida de alegría y significado.",
+            "Hoy por hoy puedo decir que eres mi lucha, mi inspiración, el sueño al que quiero llegar a ver hecho realidad, el lograr ser una familia contigo, el tener un hogar lleno de amor y felicidad, donde cada rincón refleje la magia de nuestro amor.",
+            "Creeme que hablo enserio cuando digo que eres la mujer mas hermosa que he conocido, no solo por fuera, sino por dentro, tu corazón es tan puro y lleno de amor que me siento bendecido de ser el receptor de tanto cariño.",
+            "No hay manera de expresar con palabras lo mucho que te amo y lo agradecido que estoy por tenerte a mi lado. Eres mi compañera, mi confidente y mi amor eterno.",
+            "En esta navidad, quiero prometerte que seguiré amándote con todo mi ser, que estaré a tu lado en cada paso del camino y que juntos construiremos un futuro lleno de amor, risas y felicidad.",
+            "Feliz navidad mi amor, mi vida, mi todo. Te amo más de lo que las palabras pueden expresar.",
+            "Con todo mi amor, Jason."
+        ];
+        
+        const reasons = [ // CAMBIAR AQUÍ: Cosas que te encantan
+            {
+                title: "Tu Sonrisa",
+                shortText: "Ilumina cada rincón de mi mundo...",
+                fullText: "Tu sonrisa tiene el poder de transformar cualquier día gris en uno lleno de luz. Cada vez que sonríes, me contagias esa alegría que solo tú sabes transmitir."
+            },
+            {
+                title: "Tu Forma de Ser",
+                shortText: "Auténtica, única e incomparable...",
+                fullText: "Amo tu personalidad, esa mezcla perfecta de dulzura, fortaleza y ternura. Eres una persona increíblemente especial y me siento afortunado de conocerte tal como eres."
+            },
+            {
+                title: "Tu Apoyo",
+                shortText: "Siempre estás ahí cuando te necesito...",
+                fullText: "Has estado a mi lado en los mejores y peores momentos. Tu apoyo incondicional me da la seguridad de que juntos podemos superar cualquier cosa. Gracias por ser mi refugio."
+            },
+            {
+                title: "Tu Esfuerzo",
+                shortText: "Me inspiras a crecer cada día...",
+                fullText: "Admiro la dedicación y el empeño que pones en todo lo que haces. Tu esfuerzo constante me motiva a ser mejor y a luchar por nuestros sueños juntos."
+            },
+            {
+                title: "Tus Detalles",
+                shortText: "Pequeños gestos que significan todo...",
+                fullText: "Desde un mensaje de buenos días hasta una llamada inesperada, cada detalle tuyo me recuerda lo afortunado que soy de tenerte. Esos pequeños gestos son los que construyen nuestro gran amor."
+            },
+            {
+                title: "Tu Risa",
+                shortText: "El sonido más hermoso del mundo...",
+                fullText: "Tu risa es contagiosa y contagia tanta felicidad. Hacer que te rías es uno de mis objetivos favoritos. Ese sonido es la música que alegra mi vida."
+            },
+            {
+                title: "Tu Corazón",
+                shortText: "Noble, generoso y puro...",
+                fullText: "Tienes un corazón de oro. La forma en que cuidas a los que amas, tu empatía y tu bondad son cualidades que te hacen verdaderamente especial."
+            },
+            {
+                title: "Tu Presencia",
+                shortText: "Hace que todo sea mejor...",
+                fullText: "Solo con tener tu presencia, haces que cualquier momento sea especial. Tu presencia es un regalo que valoro cada segundo, hasta lo ordinario se vuelve extraordinario."
+            },
+            {
+                title: "Nuestro Amor",
+                shortText: "Lo más hermoso que tengo...",
+                fullText: "El amor que compartimos es único y especial. Es un amor que crece día a día, un amor que se fortalece con cada duelo y que se celebra en cada victoria. Gracias por amar y dejarte amar mi bebe."
+            }
+        ];
+        
+        const promises = [ // CAMBIAR AQUÍ: Tus promesas para 2026
+            "Prometo el esforzarme cada dia para ser la mejor versión de mí mismo, por ti y por nosotros.",
+            "Prometo estar a tu lado en cada aventura, apoyándote en tus sueños y celebrando cada uno de tus logros.",
+            "Prometo construir contigo un futuro lleno de amor, risas, y felicidad.",
+            "Prometo ser tu refugio en los momentos difíciles y tu compañero en los momentos felices.",
+            "Prometo amarte incondicionalmente, respetarte y valorarte cada día de nuestras vidas juntos.",
+            "Prometo que la siguiente navidad será juntos, celebrando nuestro amor y la vida que estamos construyendo.",
+        ];
+        
+        const galleryImages = [ // CAMBIAR AQUÍ: Rutas de tus fotos
+            { src: "fotos/foto1.jpg", caption: "Nuestro primer día juntos" },
+            { src: "fotos/foto2.jpg", caption: "Ese momento especial" },
+            { src: "fotos/foto3.jpg", caption: "Aventuras inolvidables" },
+            { src: "fotos/foto4.jpg", caption: "Risas sin fin" },
+            { src: "fotos/foto5.jpg", caption: "Amor en su máxima expresión" },
+            { src: "fotos/foto6.jpg", caption: "Juntos siempre" },
+            { src: "fotos/foto7.jpg", caption: "Complicidad pura" },
+            { src: "fotos/foto8.jpg", caption: "Momentos perfectos" },
+            { src: "fotos/foto9.jpg", caption: "Nuestra historia" }
+        ];
+
+        // ========================================
+        // INICIALIZACIÓN
+        // ========================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            initContent();
+            initSnow();
+            initControls();
+            initGiftRibbon();
+        });
+
+        // Renderizar contenido dinámico
+        function initContent() {
+            // Hero
+            document.getElementById('hero-title').textContent = `Feliz Navidad, ${partnerName}`;
+            document.getElementById('hero-subtitle').textContent = heroSubtitle;
+
+            // Carta
+            const letterContent = document.getElementById('letter-content');
+            letterParagraphs.forEach(paragraph => {
+                const p = document.createElement('p');
+                p.textContent = paragraph;
+                letterContent.appendChild(p);
+            });
+
+            // Razones
+            const reasonsGrid = document.getElementById('reasons-grid');
+            reasons.forEach(reason => {
+                const card = document.createElement('div');
+                card.className = 'reason-card';
+                card.innerHTML = `
+                    <h3>${reason.title}</h3>
+                    <div class="short-text">${reason.shortText}</div>
+                    <div class="full-text">${reason.fullText}</div>
+                `;
+                card.addEventListener('click', () => card.classList.toggle('expanded'));
+                reasonsGrid.appendChild(card);
+            });
+
+            // Promesas
+            const promisesList = document.getElementById('promises-list');
+            promises.forEach(promise => {
+                const item = document.createElement('div');
+                item.className = 'promise-item';
+                item.innerHTML = `<p>${promise}</p>`;
+                promisesList.appendChild(item);
+            });
+
+            // Configurar enlace de YouTube
+            const youtubeLink = document.getElementById('youtube-link');
+            if (youtubeLink) {
+                youtubeLink.href = youtubeVideoUrl;
+            }
+        }
+
+        // ========================================
+        // EFECTO DE FLORES Y CORAZONES
+        // ========================================
+        
+        let snowEnabled = true;
+        let snowflakes = [];
+        let animationId;
+
+        function initSnow() {
+            const canvas = document.getElementById('snow-canvas');
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            // Crear flores y corazones
+            const emojis = ['🌸', '🌺', '🌷', '💖', '💕', '❤️', '🌹'];
+            for (let i = 0; i < 40; i++) {
+                snowflakes.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    emoji: emojis[Math.floor(Math.random() * emojis.length)],
+                    size: Math.random() * 20 + 15,
+                    speed: Math.random() * 0.8 + 0.3,
+                    wind: Math.random() * 0.3 - 0.15,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: Math.random() * 2 - 1
+                });
+            }
+
+            function drawSnow() {
+                if (!snowEnabled) return;
+                
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                snowflakes.forEach(flake => {
+                    ctx.save();
+                    ctx.translate(flake.x, flake.y);
+                    ctx.rotate(flake.rotation * Math.PI / 180);
+                    ctx.font = `${flake.size}px Arial`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(flake.emoji, 0, 0);
+                    ctx.restore();
+                });
+
+                updateSnow();
+            }
+
+            function updateSnow() {
+                snowflakes.forEach(flake => {
+                    flake.y += flake.speed;
+                    flake.x += flake.wind;
+                    flake.rotation += flake.rotationSpeed;
+
+                    if (flake.y > canvas.height + 50) {
+                        flake.y = -50;
+                        flake.x = Math.random() * canvas.width;
+                    }
+
+                    if (flake.x > canvas.width + 50) flake.x = -50;
+                    if (flake.x < -50) flake.x = canvas.width + 50;
+                });
+            }
+
+            function animate() {
+                drawSnow();
+                animationId = requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        // ========================================
+        // CONTROLES
+        // ========================================
+        
+        function initControls() {
+            const toggleSnowBtn = document.getElementById('toggle-snow');
+            const toggleDarkBtn = document.getElementById('toggle-dark');
+
+            toggleSnowBtn.addEventListener('click', () => {
+                snowEnabled = !snowEnabled;
+                const canvas = document.getElementById('snow-canvas');
+                if (!snowEnabled) {
+                    const ctx = canvas.getContext('2d');
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            });
+
+            toggleDarkBtn.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+            });
+        }
+
+        // ========================================
+        // MODAL DE VIDEO
+        // ========================================
+        
+        function initModal() {
+            const modal = document.getElementById('video-modal');
+            const openBtn = document.getElementById('open-video-btn');
+            const closeBtn = document.getElementById('close-modal-btn');
+            const video = document.getElementById('video-player');
+
+            openBtn.addEventListener('click', () => {
+                modal.classList.add('active');
+                setTimeout(() => video.focus(), 100);
+            });
+
+            closeBtn.addEventListener('click', closeModal);
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+
+            function closeModal() {
+                modal.classList.remove('active');
+                video.pause();
+                openBtn.focus();
+            }
+
+            // Focus trap simple
+            modal.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab' && modal.classList.contains('active')) {
+                    const focusableElements = modal.querySelectorAll('button, video');
+                    const firstElement = focusableElements[0];
+                    const lastElement = focusableElements[focusableElements.length - 1];
+
+                    if (e.shiftKey && document.activeElement === firstElement) {
+                        e.preventDefault();
+                        lastElement.focus();
+                    } else if (!e.shiftKey && document.activeElement === lastElement) {
+                        e.preventDefault();
+                        firstElement.focus();
+                    }
+                }
+            });
+        }
+
+        // ========================================
+        // LIGHTBOX
+        // ========================================
+        
+        function initLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxClose = document.getElementById('lightbox-close');
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    closeLightbox();
+                }
+            });
+        }
+
+        function openLightbox(src, alt) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = src;
+            lightboxImg.alt = alt;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+        }
+
+        // ========================================
+        // GIFT RIBBON INTERACTION
+        // ========================================
+        
+        function initGiftRibbon() {
+            const ribbon = document.getElementById('gift-ribbon');
+            const ribbonBow = document.getElementById('ribbon-bow');
+            const letterContent = document.getElementById('letter-content');
+            const ribbonVertical = ribbon.querySelector('.ribbon-vertical');
+
+            // Click en el moño o en el listón vertical
+            const openGift = () => {
+                // Añadir clase de apertura
+                ribbon.classList.add('opening');
+                
+                // Animar la carta
+                setTimeout(() => {
+                    letterContent.classList.remove('wrapped');
+                    letterContent.classList.add('animate__animated', 'animate__fadeIn', 'animate__slow');
+                }, 500);
+
+                // Remover el ribbon después de la animación
+                setTimeout(() => {
+                    ribbon.style.display = 'none';
+                }, 1200);
+            };
+
+            ribbonBow.addEventListener('click', openGift);
+            ribbonVertical.addEventListener('click', openGift);
+        }
+    </script>
+</body>
+</html>
