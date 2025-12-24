@@ -611,92 +611,6 @@
             display: block;
         }
 
-        /* ========== PASSWORD MODAL ========== */
-        .password-modal-content {
-            background: var(--color-card-bg);
-            padding: 40px;
-            border-radius: 20px;
-            max-width: 400px;
-            width: 90%;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            animation: modalSlideIn 0.4s ease;
-            text-align: center;
-        }
-
-        .password-modal-content h3 {
-            color: var(--color-primary);
-            font-family: var(--font-main);
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .password-modal-content p {
-            color: var(--color-text-light);
-            margin-bottom: 25px;
-            font-size: 1rem;
-        }
-
-        .password-input-group {
-            margin-bottom: 20px;
-        }
-
-        .password-input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid var(--color-primary);
-            border-radius: 10px;
-            font-size: 1.1rem;
-            background: var(--color-bg);
-            color: var(--color-text);
-            text-align: center;
-            font-family: var(--font-body);
-            transition: all 0.3s;
-        }
-
-        .password-input:focus {
-            outline: none;
-            border-color: var(--color-primary-light);
-            box-shadow: 0 0 15px rgba(196, 30, 58, 0.3);
-        }
-
-        .password-submit {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: var(--font-body);
-        }
-
-        .password-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(196, 30, 58, 0.4);
-        }
-
-        .password-error {
-            color: var(--color-primary);
-            font-size: 0.9rem;
-            margin-top: 10px;
-            display: none;
-            animation: shake 0.5s;
-        }
-
-        .password-error.show {
-            display: block;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
         /* ========== LIGHTBOX ========== */
         .lightbox {
             display: none;
@@ -854,9 +768,9 @@
 
         <!-- Final CTA -->
         <section class="final-cta">
-            <button class="cta-button" id="open-video-btn" aria-label="Ver video especial">
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" class="cta-button" id="youtube-link" aria-label="Ver video especial en YouTube">
                 ✨ Tengo Algo Más Para Ti ✨
-            </button>
+            </a>
         </section>
     </div>
 
@@ -864,20 +778,6 @@
     <footer>
         <p>Hecho con <span>❤️</span> por Jason</p>
     </footer>
-
-    <!-- Modal de Contraseña -->
-    <div class="modal" id="password-modal" role="dialog" aria-modal="true" aria-labelledby="password-modal-title">
-        <div class="password-modal-content">
-            <button class="modal-close" id="close-password-modal" aria-label="Cerrar modal">×</button>
-            <h3 id="password-modal-title">🔒 Video Especial</h3>
-            <p>Este video es solo para ti. Ingresa la contraseña para verlo 💕</p>
-            <div class="password-input-group">
-                <input type="password" id="password-input" class="password-input" placeholder="Contraseña" aria-label="Ingresar contraseña">
-            </div>
-            <button class="password-submit" id="password-submit">Ver Video</button>
-            <div class="password-error" id="password-error">❌ Contraseña incorrecta. Inténtalo de nuevo</div>
-        </div>
-    </div>
 
     <!-- Modal de Video -->
     <div class="modal" id="video-modal" role="dialog" aria-modal="true" aria-labelledby="video-modal-title">
@@ -998,7 +898,6 @@
             initSnow();
             initControls();
             initGiftRibbon();
-            initPasswordModal();
         });
 
         // Renderizar contenido dinámico
@@ -1037,6 +936,12 @@
                 item.innerHTML = `<p>${promise}</p>`;
                 promisesList.appendChild(item);
             });
+
+            // Configurar enlace de YouTube
+            const youtubeLink = document.getElementById('youtube-link');
+            if (youtubeLink) {
+                youtubeLink.href = youtubeVideoUrl;
+            }
         }
 
         // ========================================
@@ -1252,75 +1157,6 @@
 
             ribbonBow.addEventListener('click', openGift);
             ribbonVertical.addEventListener('click', openGift);
-        }
-
-        // ========================================
-        // PASSWORD MODAL FOR VIDEO
-        // ========================================
-        
-        function initPasswordModal() {
-            const modal = document.getElementById('password-modal');
-            const openBtn = document.getElementById('open-video-btn');
-            const closeBtn = document.getElementById('close-password-modal');
-            const passwordInput = document.getElementById('password-input');
-            const submitBtn = document.getElementById('password-submit');
-            const errorMsg = document.getElementById('password-error');
-
-            // Abrir modal
-            openBtn.addEventListener('click', () => {
-                modal.classList.add('active');
-                setTimeout(() => passwordInput.focus(), 100);
-            });
-
-            // Cerrar modal
-            closeBtn.addEventListener('click', closeModal);
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeModal();
-            });
-
-            // Cerrar con ESC
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && modal.classList.contains('active')) {
-                    closeModal();
-                }
-            });
-
-            // Submit con Enter
-            passwordInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    checkPassword();
-                }
-            });
-
-            // Submit con botón
-            submitBtn.addEventListener('click', checkPassword);
-
-            function checkPassword() {
-                const enteredPassword = passwordInput.value.trim();
-                
-                if (enteredPassword === videoPassword) {
-                    // Contraseña correcta
-                    window.open(youtubeVideoUrl, '_blank', 'noopener,noreferrer');
-                    closeModal();
-                    passwordInput.value = '';
-                    errorMsg.classList.remove('show');
-                } else {
-                    // Contraseña incorrecta
-                    errorMsg.classList.add('show');
-                    passwordInput.value = '';
-                    passwordInput.focus();
-                    setTimeout(() => {
-                        errorMsg.classList.remove('show');
-                    }, 3000);
-                }
-            }
-
-            function closeModal() {
-                modal.classList.remove('active');
-                passwordInput.value = '';
-                errorMsg.classList.remove('show');
-                openBtn.focus();
-            }
         }
     </script>
 </body>
